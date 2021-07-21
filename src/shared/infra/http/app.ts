@@ -4,6 +4,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import AppError from '../../errors/AppError';
 import '../typeorm';
+import '../../container';
 
 const app = express();
 app.use(express.json());
