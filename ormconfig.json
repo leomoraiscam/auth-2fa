@@ -4,7 +4,7 @@
   "port": 5454,
   "username": "docker",
   "password": "docker",
-  "database": "vuttr",
+  "database": "auth2fa",
   "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
   "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
   "cli": {
