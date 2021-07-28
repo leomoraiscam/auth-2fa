@@ -1,14 +1,21 @@
 import AppError from '../../../../shared/errors/AppError';
+import TwoFactorAuthenticateUsersTokenRepositoryInMemory from '../../../auth/repositories/in-memory/TwoFactorAuthenticateUsersTokenRepositoryInMemory';
 import UserRepositoryInMemory from '../../repositories/in-memory/UserRepositoryInMemory';
 import CreateUserUseCase from './createUserUseCase';
 
 describe('Create User', () => {
   let userRepositoryInMemory: UserRepositoryInMemory;
+  let twoFactorAuthenticateUsersTokenRepositoryInMemory: TwoFactorAuthenticateUsersTokenRepositoryInMemory;
   let createUserUseCase: CreateUserUseCase;
 
   beforeEach(async () => {
     userRepositoryInMemory = new UserRepositoryInMemory();
-    createUserUseCase = new CreateUserUseCase(userRepositoryInMemory);
+    twoFactorAuthenticateUsersTokenRepositoryInMemory =
+      new TwoFactorAuthenticateUsersTokenRepositoryInMemory();
+    createUserUseCase = new CreateUserUseCase(
+      userRepositoryInMemory,
+      twoFactorAuthenticateUsersTokenRepositoryInMemory
+    );
   });
 
   it('should be able to create a user', async () => {
