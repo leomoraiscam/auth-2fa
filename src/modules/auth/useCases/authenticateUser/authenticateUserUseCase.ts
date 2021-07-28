@@ -5,6 +5,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '../../../../shared/errors/AppError';
 import User from '../../../users/infra/typeorm/entities/User';
 import IUserRepository from '../../../users/repositories/IUsersRepository';
+import ITwoFactorAuthenticateUserTokenRepository from '../../repositories/ITwoFactorAuthenticateUserTokenRepository';
 
 interface IRequest {
   email: string;
@@ -20,7 +21,9 @@ interface IResponse {
 class AuthenticateUserUseCase {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUserRepository
+    private usersRepository: IUserRepository,
+    @inject('TwoFactorAuthenticateUsersTokenRepository')
+    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -34,6 +37,13 @@ class AuthenticateUserUseCase {
 
     if (!checkPassword) {
       throw new AppError('Incorrect email/password combination', 401);
+    }
+
+    const userToken2Fa =
+      await this.twoFactorAuthenticateUserTokenRepository.findByUserId(user.id);
+
+    if (!userToken2Fa.confirmation_register) {
+      throw new AppError('Confirmed Registration is missing', 401);
     }
 
     const token = sign({}, 'secret', {
