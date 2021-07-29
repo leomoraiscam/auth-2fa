@@ -24,12 +24,19 @@ describe('Create User', () => {
     );
   });
 
-  it('should be able to authenticate an user with correct credentials', async () => {
-    await createUserUseCase.execute({
+  it('should be able to authenticate an user with correct credentials and confirmation equals true value', async () => {
+    const user = await createUserUseCase.execute({
       name: 'john doe',
       email: 'johndoe@email.com',
       password: '1234',
     });
+
+    const tokenTwoFactorData =
+      await twoFactorAuthenticateUsersTokenRepositoryInMemory.findByUserId(
+        user.id
+      );
+
+    tokenTwoFactorData.confirmation_register = true;
 
     const response = await authenticateUserUseCase.execute({
       email: 'johndoe@email.com',
@@ -37,6 +44,21 @@ describe('Create User', () => {
     });
 
     expect(response).toHaveProperty('token');
+  });
+
+  it('should be able to authenticate an user with correct credentials and confirmation false values', async () => {
+    await createUserUseCase.execute({
+      name: 'john doe',
+      email: 'johndoe@email.com',
+      password: '1234',
+    });
+
+    expect(
+      authenticateUserUseCase.execute({
+        email: 'johndoe@email.com',
+        password: '1234',
+      })
+    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to authenticate an user with wrong password', async () => {
