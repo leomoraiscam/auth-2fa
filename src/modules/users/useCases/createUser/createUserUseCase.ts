@@ -1,7 +1,9 @@
 import { hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
+import IMailProvider from '../../../../shared/container/providers/MailProvider/model/IMailProvider';
 import AppError from '../../../../shared/errors/AppError';
 import ITwoFactorAuthenticateUserTokenRepository from '../../../auth/repositories/ITwoFactorAuthenticateUserTokenRepository';
 import ICreateUserDTO from '../../dtos/ICreateUserDTO';
@@ -14,7 +16,9 @@ class CreateUserUseCase {
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
     @inject('TwoFactorAuthenticateUsersTokenRepository')
-    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository
+    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository,
+    @inject('MailProvider')
+    private mailProvider: IMailProvider
   ) {}
 
   async execute({ name, email, password }: ICreateUserDTO): Promise<User> {
@@ -40,6 +44,30 @@ class CreateUserUseCase {
     await this.twoFactorAuthenticateUserTokenRepository.create({
       user_id: user.id,
       token,
+    });
+
+    const welcomeTemplate = path.resolve(
+      __dirname,
+      '..',
+      '..',
+      'views',
+      'welcome.hbs'
+    );
+
+    await this.mailProvider.sendMail({
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: '[2fa] Email de confirmação',
+      templateData: {
+        file: welcomeTemplate,
+        variables: {
+          name: user.name,
+          token,
+          link: `${process.env.APP_WEB_URL}/2fa?token=${token}`,
+        },
+      },
     });
 
     return user;
