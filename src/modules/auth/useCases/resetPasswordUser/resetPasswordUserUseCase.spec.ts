@@ -1,9 +1,8 @@
-import bcrypt from 'bcryptjs';
+import UserRepositoryInMemory from '@modules/users/repositories/in-memory/UserRepositoryInMemory';
+import AppError from '@shared/errors/AppError';
 
-import AppError from '../../../../shared/errors/AppError';
-import UserRepositoryInMemory from '../../../users/repositories/in-memory/UserRepositoryInMemory';
 import UsersTokenRepositoryInMemory from '../../repositories/in-memory/UsersTokenRepositoryInMemory';
-import ResetPasswordUseCase from './resetPasswordUseCase';
+import ResetPasswordUseCase from './resetPasswordUserUseCase';
 
 let userRepositoryInMemory: UserRepositoryInMemory;
 let usersTokenRepositoryInMemory: UsersTokenRepositoryInMemory;

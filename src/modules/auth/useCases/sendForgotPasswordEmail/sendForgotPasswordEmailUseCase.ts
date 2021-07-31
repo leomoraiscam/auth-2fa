@@ -1,9 +1,10 @@
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
-import IMailProvider from '../../../../shared/container/providers/MailProvider/model/IMailProvider';
-import AppError from '../../../../shared/errors/AppError';
-import IUserRepository from '../../../users/repositories/IUsersRepository';
+import IUserRepository from '@modules/users/repositories/IUsersRepository';
+import IMailProvider from '@shared/container/providers/MailProvider/model/IMailProvider';
+import AppError from '@shared/errors/AppError';
+
 import IUserTokensRepository from '../../repositories/IUserTokenRepository';
 
 interface IRequest {

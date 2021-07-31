@@ -1,12 +1,15 @@
-import AppError from '../../../../shared/errors/AppError';
-import UserRepositoryInMemory from '../../../users/repositories/in-memory/UserRepositoryInMemory';
-import CreateUserUseCase from '../../../users/useCases/createUser/createUserUseCase';
+import UserRepositoryInMemory from '@modules/users/repositories/in-memory/UserRepositoryInMemory';
+import CreateUserUseCase from '@modules/users/useCases/createUser/createUserUseCase';
+import MailProviderInMemory from '@shared/container/providers/MailProvider/in-memory/MailProviderInMemory';
+import AppError from '@shared/errors/AppError';
+
 import TwoFactorAuthenticateUsersTokenRepositoryInMemory from '../../repositories/in-memory/TwoFactorAuthenticateUsersTokenRepositoryInMemory';
 import ValidateTwoFactorAuthenticateTokenUseCase from './validateTwoFactorAuthenticateTokenUseCase';
 
 describe('Create User', () => {
   let userRepositoryInMemory: UserRepositoryInMemory;
   let twoFactorAuthenticateUsersTokenRepositoryInMemory: TwoFactorAuthenticateUsersTokenRepositoryInMemory;
+  let mailProviderInMemory: MailProviderInMemory;
   let validateTwoFactorAuthenticateTokenUseCase: ValidateTwoFactorAuthenticateTokenUseCase;
   let createUserUseCase: CreateUserUseCase;
 
@@ -14,9 +17,11 @@ describe('Create User', () => {
     userRepositoryInMemory = new UserRepositoryInMemory();
     twoFactorAuthenticateUsersTokenRepositoryInMemory =
       new TwoFactorAuthenticateUsersTokenRepositoryInMemory();
+    mailProviderInMemory = new MailProviderInMemory();
     createUserUseCase = new CreateUserUseCase(
       userRepositoryInMemory,
-      twoFactorAuthenticateUsersTokenRepositoryInMemory
+      twoFactorAuthenticateUsersTokenRepositoryInMemory,
+      mailProviderInMemory
     );
     validateTwoFactorAuthenticateTokenUseCase =
       new ValidateTwoFactorAuthenticateTokenUseCase(

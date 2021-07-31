@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start:dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
+    "start:dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "commit": "cz",
     "test": "jest"
   },
@@ -32,6 +32,7 @@
     "nodemailer": "^6.6.3",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
+    "tsconfig-paths": "^3.10.1",
     "tsyringe": "^4.6.0",
     "typeorm": "^0.2.34",
     "uuid": "^8.3.2"
@@ -58,7 +59,7 @@
     "husky": "^4.2.3",
     "jest": "^27.0.6",
     "prettier": "^2.2.1",
-    "ts-jest": "^27.0.3",
+    "ts-jest": "^27.0.4",
     "ts-node": "^10.0.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.5"

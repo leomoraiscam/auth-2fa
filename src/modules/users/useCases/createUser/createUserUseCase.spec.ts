@@ -1,20 +1,25 @@
-import AppError from '../../../../shared/errors/AppError';
-import TwoFactorAuthenticateUsersTokenRepositoryInMemory from '../../../auth/repositories/in-memory/TwoFactorAuthenticateUsersTokenRepositoryInMemory';
+import TwoFactorAuthenticateUsersTokenRepositoryInMemory from '@modules/auth/repositories/in-memory/TwoFactorAuthenticateUsersTokenRepositoryInMemory';
+import MailProviderInMemory from '@shared/container/providers/MailProvider/in-memory/MailProviderInMemory';
+import AppError from '@shared/errors/AppError';
+
 import UserRepositoryInMemory from '../../repositories/in-memory/UserRepositoryInMemory';
 import CreateUserUseCase from './createUserUseCase';
 
 describe('Create User', () => {
   let userRepositoryInMemory: UserRepositoryInMemory;
   let twoFactorAuthenticateUsersTokenRepositoryInMemory: TwoFactorAuthenticateUsersTokenRepositoryInMemory;
+  let mailProviderInMemory: MailProviderInMemory;
   let createUserUseCase: CreateUserUseCase;
 
   beforeEach(async () => {
     userRepositoryInMemory = new UserRepositoryInMemory();
     twoFactorAuthenticateUsersTokenRepositoryInMemory =
       new TwoFactorAuthenticateUsersTokenRepositoryInMemory();
+    mailProviderInMemory = new MailProviderInMemory();
     createUserUseCase = new CreateUserUseCase(
       userRepositoryInMemory,
-      twoFactorAuthenticateUsersTokenRepositoryInMemory
+      twoFactorAuthenticateUsersTokenRepositoryInMemory,
+      mailProviderInMemory
     );
   });
 

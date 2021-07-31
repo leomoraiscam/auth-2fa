@@ -9,29 +9,23 @@ class TwoFactorAuthenticateUsersTokens
 {
   private twoFactorAuthenticateUserToken: TwoFactorAuthenticateUserToken[] = [];
 
-  async findByToken(
-    token: string
-  ): Promise<TwoFactorAuthenticateUserToken | undefined> {
-    const twoFactorAuthenticateUserToken =
-      this.twoFactorAuthenticateUserToken.find(
-        (findToken) => findToken.token === token
-      );
-
-    return twoFactorAuthenticateUserToken;
-  }
-
-  async findByUserId(
+  public async findByUserId(
     user_id: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined> {
-    const twoFactorAuthenticateUserToken =
-      this.twoFactorAuthenticateUserToken.find(
-        (findToken) => findToken.user_id === user_id
-      );
-
-    return twoFactorAuthenticateUserToken;
+    return this.twoFactorAuthenticateUserToken.find(
+      (findToken) => findToken.user_id === user_id
+    );
   }
 
-  async create({
+  public async findByToken(
+    token: string
+  ): Promise<TwoFactorAuthenticateUserToken | undefined> {
+    return this.twoFactorAuthenticateUserToken.find(
+      (findToken) => findToken.token === token
+    );
+  }
+
+  public async create({
     user_id,
     token,
   }: ICreateTwoFactorAuthenticateUserDTO): Promise<TwoFactorAuthenticateUserToken> {
@@ -48,7 +42,7 @@ class TwoFactorAuthenticateUsersTokens
     return twoFactorAuthenticateUserToken;
   }
 
-  async save(
+  public async save(
     twoFactorAuthenticateUserToken: TwoFactorAuthenticateUserToken
   ): Promise<void> {
     this.twoFactorAuthenticateUserToken.splice(

@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import AuthenticatedUserController from '../../../../modules/auth/useCases/authenticateUser/authenticateController';
-import ResetPasswordController from '../../../../modules/auth/useCases/resetPassword/resetPasswordController';
-import SendForgotPasswordEmailController from '../../../../modules/auth/useCases/sendForgotPasswordEmail/sendForgotPasswordEmailController';
-import ValidateTwoFactorAuthenticateTokenController from '../../../../modules/auth/useCases/validateTwoFactorAuthenticateToken/validateTwoFactorAuthenticateTokenController';
+import AuthenticatedUserController from '@modules/auth/useCases/authenticateUser/authenticateUserController';
+import ResetPasswordController from '@modules/auth/useCases/resetPasswordUser/resetPasswordUserController';
+import SendForgotPasswordEmailController from '@modules/auth/useCases/sendForgotPasswordEmail/sendForgotPasswordEmailController';
+import ValidateTwoFactorAuthenticateTokenController from '@modules/auth/useCases/validateTwoFactorAuthenticateToken/validateTwoFactorAuthenticateTokenController';
 
 const passwordRoutes = Router();
 const authenticatedUserController = new AuthenticatedUserController();

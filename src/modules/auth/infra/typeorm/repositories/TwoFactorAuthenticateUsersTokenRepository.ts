@@ -1,7 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateTwoFactorAuthenticateUserDTO from '../../../dtos/ICreateTwoFactorAuthenticateUserDTO';
-import ITwoFactorAuthenticateUserTokenRepository from '../../../repositories/ITwoFactorAuthenticateUserTokenRepository';
+import ICreateTwoFactorAuthenticateUserDTO from '@modules/auth/dtos/ICreateTwoFactorAuthenticateUserDTO';
+import ITwoFactorAuthenticateUserTokenRepository from '@modules/auth/repositories/ITwoFactorAuthenticateUserTokenRepository';
+
 import TwoFactorAuthenticateUserToken from '../entities/TwoFactorAuthenticateUserToken';
 
 class TwoFactorAuthenticateUsersTokenRepository
@@ -13,28 +14,24 @@ class TwoFactorAuthenticateUsersTokenRepository
     this.ormRepository = getRepository(TwoFactorAuthenticateUserToken);
   }
 
-  public async findByToken(
-    token: string
-  ): Promise<TwoFactorAuthenticateUserToken | undefined> {
-    const findUser = await this.ormRepository.findOne({
-      where: {
-        token,
-      },
-    });
-
-    return findUser;
-  }
-
-  async findByUserId(
+  public async findByUserId(
     user_id: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined> {
-    const twoFactorAuthenticateUserToken = this.ormRepository.findOne({
+    return this.ormRepository.findOne({
       where: {
         user_id,
       },
     });
+  }
 
-    return twoFactorAuthenticateUserToken;
+  public async findByToken(
+    token: string
+  ): Promise<TwoFactorAuthenticateUserToken | undefined> {
+    return this.ormRepository.findOne({
+      where: {
+        token,
+      },
+    });
   }
 
   public async create({

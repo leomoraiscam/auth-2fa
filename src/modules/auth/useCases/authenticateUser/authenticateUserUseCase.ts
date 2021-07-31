@@ -2,9 +2,10 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
-import AppError from '../../../../shared/errors/AppError';
-import User from '../../../users/infra/typeorm/entities/User';
-import IUserRepository from '../../../users/repositories/IUsersRepository';
+import User from '@modules/users/infra/typeorm/entities/User';
+import IUserRepository from '@modules/users/repositories/IUsersRepository';
+import AppError from '@shared/errors/AppError';
+
 import ITwoFactorAuthenticateUserTokenRepository from '../../repositories/ITwoFactorAuthenticateUserTokenRepository';
 
 interface IRequest {

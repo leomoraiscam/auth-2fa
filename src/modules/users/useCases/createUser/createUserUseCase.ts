@@ -3,9 +3,10 @@ import { sign } from 'jsonwebtoken';
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
-import IMailProvider from '../../../../shared/container/providers/MailProvider/model/IMailProvider';
-import AppError from '../../../../shared/errors/AppError';
-import ITwoFactorAuthenticateUserTokenRepository from '../../../auth/repositories/ITwoFactorAuthenticateUserTokenRepository';
+import ITwoFactorAuthenticateUserTokenRepository from '@modules/auth/repositories/ITwoFactorAuthenticateUserTokenRepository';
+import IMailProvider from '@shared/container/providers/MailProvider/model/IMailProvider';
+import AppError from '@shared/errors/AppError';
+
 import ICreateUserDTO from '../../dtos/ICreateUserDTO';
 import User from '../../infra/typeorm/entities/User';
 import IUserRepository from '../../repositories/IUsersRepository';

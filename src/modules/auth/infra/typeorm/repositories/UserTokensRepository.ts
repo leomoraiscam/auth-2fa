@@ -1,6 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 
-import IUserTokensRepository from '../../../repositories/IUserTokenRepository';
+import IUserTokensRepository from '@modules/auth/repositories/IUserTokenRepository';
+
 import UserToken from '../entities/UserToken';
 
 class UserTokensRepository implements IUserTokensRepository {
@@ -11,13 +12,11 @@ class UserTokensRepository implements IUserTokensRepository {
   }
 
   public async findByToken(token: string): Promise<UserToken | undefined> {
-    const findUser = await this.ormRepository.findOne({
+    return this.ormRepository.findOne({
       where: {
         token,
       },
     });
-
-    return findUser;
   }
 
   public async generate(user_id: string): Promise<UserToken> {

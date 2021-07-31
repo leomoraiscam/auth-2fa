@@ -1,7 +1,8 @@
 import { verify } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
-import AppError from '../../../../shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
+
 import IValidate2faToken from '../../dtos/IValidate2faToken';
 import ITwoFactorAuthenticateUserTokenRepository from '../../repositories/ITwoFactorAuthenticateUserTokenRepository';
 

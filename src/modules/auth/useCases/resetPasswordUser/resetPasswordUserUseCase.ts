@@ -2,8 +2,9 @@ import { hash } from 'bcryptjs';
 import { isAfter, addHours } from 'date-fns';
 import { injectable, inject } from 'tsyringe';
 
-import AppError from '../../../../shared/errors/AppError';
-import IUsersRepository from '../../../users/repositories/IUsersRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import AppError from '@shared/errors/AppError';
+
 import IUserTokensRepository from '../../repositories/IUserTokenRepository';
 
 interface IRequest {
@@ -12,7 +13,7 @@ interface IRequest {
 }
 
 @injectable()
-class ResetPasswordUseCase {
+class ResetPasswordUserUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -46,4 +47,4 @@ class ResetPasswordUseCase {
   }
 }
 
-export default ResetPasswordUseCase;
+export default ResetPasswordUserUseCase;

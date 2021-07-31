@@ -2,11 +2,11 @@ import ICreateTwoFactorAuthenticateUserDTO from '../dtos/ICreateTwoFactorAuthent
 import TwoFactorAuthenticateUserToken from '../infra/typeorm/entities/TwoFactorAuthenticateUserToken';
 
 export default interface IUserTokensRepository {
-  findByToken(
-    token: string
-  ): Promise<TwoFactorAuthenticateUserToken | undefined>;
   findByUserId(
     user_id: string
+  ): Promise<TwoFactorAuthenticateUserToken | undefined>;
+  findByToken(
+    token: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined>;
   create(
     data: ICreateTwoFactorAuthenticateUserDTO

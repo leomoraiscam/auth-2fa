@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('two_factor_authenticate_user_tokens')
-class UserToken {
+class TwoFactorAuthenticateUserToken {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,4 +29,4 @@ class UserToken {
   updated_at: Date;
 }
 
-export default UserToken;
+export default TwoFactorAuthenticateUserToken;

@@ -1,6 +1,7 @@
-import MailProviderInMemory from '../../../../shared/container/providers/MailProvider/in-memory/MailProviderInMemory';
-import AppError from '../../../../shared/errors/AppError';
-import UserRepositoryInMemory from '../../../users/repositories/in-memory/UserRepositoryInMemory';
+import UserRepositoryInMemory from '@modules/users/repositories/in-memory/UserRepositoryInMemory';
+import MailProviderInMemory from '@shared/container/providers/MailProvider/in-memory/MailProviderInMemory';
+import AppError from '@shared/errors/AppError';
+
 import UsersTokenRepositoryInMemory from '../../repositories/in-memory/UsersTokenRepositoryInMemory';
 import SendForgotPasswordEmailUseCase from './sendForgotPasswordEmailUseCase';
 
