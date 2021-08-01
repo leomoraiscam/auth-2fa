@@ -1,6 +1,6 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ICreateTwoFactorAuthenticateUserDTO from '@modules/auth/dtos/ICreateTwoFactorAuthenticateUserDTO';
+import ICreateTwoFactorAuthenticateUserTokenDTO from '@modules/auth/dtos/ICreateTwoFactorAuthenticateUserTokenDTO';
 import ITwoFactorAuthenticateUserTokenRepository from '@modules/auth/repositories/ITwoFactorAuthenticateUserTokenRepository';
 
 import TwoFactorAuthenticateUserToken from '../entities/TwoFactorAuthenticateUserToken';
@@ -37,7 +37,7 @@ class TwoFactorAuthenticateUsersTokenRepository
   public async create({
     token,
     user_id,
-  }: ICreateTwoFactorAuthenticateUserDTO): Promise<TwoFactorAuthenticateUserToken> {
+  }: ICreateTwoFactorAuthenticateUserTokenDTO): Promise<TwoFactorAuthenticateUserToken> {
     const userToken = this.ormRepository.create({
       token,
       user_id,

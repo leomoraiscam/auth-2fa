@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import ICreateTwoFactorAuthenticateUserDTO from '../../dtos/ICreateTwoFactorAuthenticateUserDTO';
+import ICreateTwoFactorAuthenticateUserTokenDTO from '../../dtos/ICreateTwoFactorAuthenticateUserTokenDTO';
 import TwoFactorAuthenticateUserToken from '../../infra/typeorm/entities/TwoFactorAuthenticateUserToken';
 import ITwoFactorAuthenticateUserTokenRepository from '../ITwoFactorAuthenticateUserTokenRepository';
 
@@ -28,7 +28,7 @@ class TwoFactorAuthenticateUsersTokens
   public async create({
     user_id,
     token,
-  }: ICreateTwoFactorAuthenticateUserDTO): Promise<TwoFactorAuthenticateUserToken> {
+  }: ICreateTwoFactorAuthenticateUserTokenDTO): Promise<TwoFactorAuthenticateUserToken> {
     const twoFactorAuthenticateUserToken = new TwoFactorAuthenticateUserToken();
 
     Object.assign(twoFactorAuthenticateUserToken, {

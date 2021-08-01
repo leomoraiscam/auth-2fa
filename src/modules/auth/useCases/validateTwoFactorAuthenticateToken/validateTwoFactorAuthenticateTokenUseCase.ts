@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
-import IValidate2faToken from '../../dtos/IValidate2faToken';
+import IValidateTwoFactorAuthenticateUserToken from '../../dtos/IValidateTwoFactorAuthenticateUserToken';
 import ITwoFactorAuthenticateUserTokenRepository from '../../repositories/ITwoFactorAuthenticateUserTokenRepository';
 
 @injectable()
@@ -13,7 +13,9 @@ class ValidateTwoFactorAuthenticateTokenUseCase {
     private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository
   ) {}
 
-  async execute({ token }: IValidate2faToken): Promise<void> {
+  async execute({
+    token,
+  }: IValidateTwoFactorAuthenticateUserToken): Promise<void> {
     const savedUser =
       await this.twoFactorAuthenticateUserTokenRepository.findByToken(token);
 
