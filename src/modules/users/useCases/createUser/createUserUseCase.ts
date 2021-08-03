@@ -3,7 +3,7 @@ import { sign } from 'jsonwebtoken';
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
-import ITwoFactorAuthenticateUserTokenRepository from '@modules/auth/repositories/ITwoFactorAuthenticateUserTokenRepository';
+import ITwoFactorAuthenticateUsersTokenRepository from '@modules/auth/repositories/ITwoFactorAuthenticateUsersTokenRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/model/IMailProvider';
 import AppError from '@shared/errors/AppError';
 
@@ -17,7 +17,7 @@ class CreateUserUseCase {
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
     @inject('TwoFactorAuthenticateUsersTokenRepository')
-    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository,
+    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUsersTokenRepository,
     @inject('MailProvider')
     private mailProvider: IMailProvider
   ) {}
@@ -44,7 +44,6 @@ class CreateUserUseCase {
 
     await this.twoFactorAuthenticateUserTokenRepository.create({
       user_id: user.id,
-      token,
     });
 
     const welcomeTemplate = path.resolve(
@@ -60,7 +59,7 @@ class CreateUserUseCase {
         name: user.name,
         email: user.email,
       },
-      subject: '[2fa] Email de confirmação',
+      subject: '[2FA] Email de confirmação',
       templateData: {
         file: welcomeTemplate,
         variables: {

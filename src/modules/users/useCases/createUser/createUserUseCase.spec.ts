@@ -25,7 +25,7 @@ describe('Create User', () => {
 
   it('should be able to create a user', async () => {
     const user = await createUserUseCase.execute({
-      name: 'jonh doe',
+      name: 'john doe',
       email: 'jonhdoe@email.com',
       password: '1234',
     });
@@ -35,14 +35,14 @@ describe('Create User', () => {
 
   it('should not be able to create a user with same email', async () => {
     await userRepositoryInMemory.create({
-      name: 'jonh doe',
+      name: 'john doe',
       email: 'jonhdoe@email.com',
       password: '1234',
     });
 
     await expect(
       createUserUseCase.execute({
-        name: 'jonh doe',
+        name: 'john doe',
         email: 'jonhdoe@email.com',
         password: '1234',
       })

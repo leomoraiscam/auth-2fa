@@ -1,35 +1,33 @@
-import { verify } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 
 import IValidateTwoFactorAuthenticateUserToken from '../../dtos/IValidateTwoFactorAuthenticateUserToken';
-import ITwoFactorAuthenticateUserTokenRepository from '../../repositories/ITwoFactorAuthenticateUserTokenRepository';
+import ITwoFactorAuthenticateUsersTokenRepository from '../../repositories/ITwoFactorAuthenticateUsersTokenRepository';
 
 @injectable()
 class ValidateTwoFactorAuthenticateTokenUseCase {
   constructor(
     @inject('TwoFactorAuthenticateUsersTokenRepository')
-    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository
+    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUsersTokenRepository
   ) {}
 
   async execute({
     token,
   }: IValidateTwoFactorAuthenticateUserToken): Promise<void> {
-    const savedUser =
+    const twoFactorUserToken =
       await this.twoFactorAuthenticateUserTokenRepository.findByToken(token);
 
-    if (!savedUser) {
+    if (!twoFactorUserToken) {
       throw new AppError('Invalid 2fa token');
     }
 
     try {
-      await verify(token, 'secret');
+      twoFactorUserToken.confirmation_register = true;
 
-      savedUser.token = null;
-      savedUser.confirmation_register = true;
-
-      await this.twoFactorAuthenticateUserTokenRepository.save(savedUser);
+      await this.twoFactorAuthenticateUserTokenRepository.save(
+        twoFactorUserToken
+      );
     } catch (error) {
       throw new AppError('2fa token expired', 401);
     }

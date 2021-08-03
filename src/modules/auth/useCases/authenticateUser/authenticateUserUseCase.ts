@@ -6,7 +6,7 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import IUserRepository from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 
-import ITwoFactorAuthenticateUserTokenRepository from '../../repositories/ITwoFactorAuthenticateUserTokenRepository';
+import ITwoFactorAuthenticateUsersTokenRepository from '../../repositories/ITwoFactorAuthenticateUsersTokenRepository';
 
 interface IRequest {
   email: string;
@@ -24,7 +24,7 @@ class AuthenticateUserUseCase {
     @inject('UsersRepository')
     private usersRepository: IUserRepository,
     @inject('TwoFactorAuthenticateUsersTokenRepository')
-    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUserTokenRepository
+    private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUsersTokenRepository
   ) {}
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -34,16 +34,16 @@ class AuthenticateUserUseCase {
       throw new AppError('Incorrect email/password combination', 401);
     }
 
-    const checkPassword = await compare(password, user.password);
+    const checkMatchedPassword = await compare(password, user.password);
 
-    if (!checkPassword) {
+    if (!checkMatchedPassword) {
       throw new AppError('Incorrect email/password combination', 401);
     }
 
-    const userToken2Fa =
+    const twoFactorUserToken =
       await this.twoFactorAuthenticateUserTokenRepository.findByUserId(user.id);
 
-    if (!userToken2Fa.confirmation_register) {
+    if (!twoFactorUserToken.confirmation_register) {
       throw new AppError('Confirmed Registration is missing', 401);
     }
 

@@ -1,7 +1,7 @@
-import ICreateTwoFactorAuthenticateUserDTO from '../dtos/ICreateTwoFactorAuthenticateUserDTO';
+import ICreateTwoFactorAuthenticateUserDTO from '../dtos/ICreateTwoFactorAuthenticateUserTokenDTO';
 import TwoFactorAuthenticateUserToken from '../infra/typeorm/entities/TwoFactorAuthenticateUserToken';
 
-export default interface IUserTokensRepository {
+export default interface ITwoFactorAuthenticateUsersTokenRepository {
   findByUserId(
     user_id: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined>;

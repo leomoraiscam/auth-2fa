@@ -31,7 +31,7 @@ class SendForgotPasswordEmailUseCase {
 
     const { token } = await this.userTokensRepository.generate(user.id);
 
-    const forgotPasswordtemplate = path.resolve(
+    const forgotPasswordTemplate = path.resolve(
       __dirname,
       '..',
       '..',
@@ -46,9 +46,9 @@ class SendForgotPasswordEmailUseCase {
         name: user.name,
         email: user.email,
       },
-      subject: '[2fa] Recuperação de senha',
+      subject: '[2FA] Recuperação de senha',
       templateData: {
-        file: forgotPasswordtemplate,
+        file: forgotPasswordTemplate,
         variables: {
           name: user.name,
           token,

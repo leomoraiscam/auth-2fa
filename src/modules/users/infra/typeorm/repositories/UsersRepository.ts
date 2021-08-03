@@ -1,29 +1,25 @@
 import { getRepository, Repository } from 'typeorm';
 
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
-import IUserRepository from '@modules/users/repositories/IUsersRepository';
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
 import User from '../entities/User';
 
-class UsersRepository implements IUserRepository {
+class UsersRepository implements IUsersRepository {
   private repository: Repository<User>;
 
   constructor() {
     this.repository = getRepository(User);
   }
 
+  public async findById(id: string): Promise<User | undefined> {
+    return this.repository.findOne(id);
+  }
+
   public async findByEmail(email: string): Promise<User | undefined> {
     return this.repository.findOne({
       where: {
         email,
-      },
-    });
-  }
-
-  public async findById(id: string): Promise<User | undefined> {
-    return this.repository.findOne({
-      where: {
-        id,
       },
     });
   }

@@ -5,12 +5,12 @@ import IUsersRepository from '../IUsersRepository';
 class UsersRepositoryInMemory implements IUsersRepository {
   users: User[] = [];
 
-  public async findByEmail(email: string): Promise<User | undefined> {
-    return this.users.find((user) => user.email === email);
-  }
-
   public async findById(id: string): Promise<User | undefined> {
     return this.users.find((user) => user.id === id);
+  }
+
+  public async findByEmail(email: string): Promise<User | undefined> {
+    return this.users.find((user) => user.email === email);
   }
 
   public async create({
