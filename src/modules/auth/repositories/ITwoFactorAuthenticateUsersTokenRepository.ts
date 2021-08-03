@@ -8,10 +8,10 @@ export default interface ITwoFactorAuthenticateUsersTokenRepository {
   findByToken(
     token: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined>;
-  create(
+  generate(
     data: ICreateTwoFactorAuthenticateUserDTO
   ): Promise<TwoFactorAuthenticateUserToken>;
   save(
     twoFactorAuthenticateUserToken: TwoFactorAuthenticateUserToken
-  ): Promise<void>;
+  ): Promise<TwoFactorAuthenticateUserToken>;
 }

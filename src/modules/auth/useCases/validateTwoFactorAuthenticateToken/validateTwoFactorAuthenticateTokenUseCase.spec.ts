@@ -45,7 +45,7 @@ describe('Create User', () => {
     });
 
     const userToken =
-      await twoFactorAuthenticateUsersTokenRepositoryInMemory.create({
+      await twoFactorAuthenticateUsersTokenRepositoryInMemory.generate({
         user_id: user.id,
       });
 

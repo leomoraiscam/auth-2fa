@@ -42,7 +42,7 @@ class CreateUserUseCase {
       expiresIn: '1d',
     });
 
-    await this.twoFactorAuthenticateUserTokenRepository.create({
+    await this.twoFactorAuthenticateUserTokenRepository.generate({
       user_id: user.id,
     });
 

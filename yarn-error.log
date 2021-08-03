@@ -1,5 +1,5 @@
 Arguments: 
-  /home/leonardomorais/.nvm/versions/node/v12.16.2/bin/node /home/leonardomorais/.nvm/versions/node/v12.16.2/bin/yarn add @types/ts-jest -D
+  /home/leonardomorais/.nvm/versions/node/v12.16.2/bin/node /home/leonardomorais/.nvm/versions/node/v12.16.2/bin/yarn add @types/class-transformer -D
 
 PATH: 
   /home/leonardomorais/.serverless/bin:/home/leonardomorais/.serverless/bin:/home/leonardomorais/.nvm/versions/node/v12.16.2/bin:/home/leonardomorais/.zinit/polaris/sbin:/home/leonardomorais/.zinit/polaris/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/leonardomorais/Android/Sdk/emulator:/home/leonardomorais/Android/Sdk/tools:/home/leonardomorais/Android/Sdk/tools/bin:/home/leonardomorais/Android/Sdk/platform-tools:/home/leonardomorais/android-studio/bin:/home/leonardomorais/Android/Sdk/emulator:/home/leonardomorais/Android/Sdk/tools:/home/leonardomorais/Android/Sdk/tools/bin:/home/leonardomorais/Android/Sdk/platform-tools:/home/leonardomorais/android-studio/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fts-jest: Not found
+  Error: https://registry.yarnpkg.com/@types%2fclass-transformer: Not found
       at Request.params.callback [as _callback] (/home/leonardomorais/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:66988:18)
       at Request.self.callback (/home/leonardomorais/.nvm/versions/node/v12.16.2/lib/node_modules/yarn/lib/cli.js:140662:22)
       at Request.emit (events.js:310:20)
@@ -52,7 +52,9 @@ npm manifest:
     },
     "dependencies": {
       "bcryptjs": "^2.4.3",
+      "class-transformer": "^0.4.0",
       "date-fns": "^2.23.0",
+      "dotenv": "^10.0.0",
       "express": "^4.17.1",
       "express-async-errors": "^3.1.1",
       "handlebars": "^4.7.7",
@@ -88,7 +90,7 @@ npm manifest:
       "husky": "^4.2.3",
       "jest": "^27.0.6",
       "prettier": "^2.2.1",
-      "ts-jest": "^27.0.3",
+      "ts-jest": "^27.0.4",
       "ts-node": "^10.0.0",
       "ts-node-dev": "^1.1.8",
       "typescript": "^4.3.5"
@@ -1502,7 +1504,12 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz#f8e71132f7ffe6e01a5c9697a4c6f3e48d5cc819"
     integrity sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=
   
-  buffer-from@1.x, buffer-from@^1.0.0:
+  buffer-from@1.x:
+    version "1.1.2"
+    resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
+    integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==
+  
+  buffer-from@^1.0.0:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
     integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
@@ -1624,6 +1631,11 @@ Lockfile:
     version "1.2.2"
     resolved "https://registry.yarnpkg.com/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz#9f84ba3244a512f3a54e5277e8eef4c489864e40"
     integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
+  
+  class-transformer@^0.4.0:
+    version "0.4.0"
+    resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.4.0.tgz#b52144117b423c516afb44cc1c76dbad31c2165b"
+    integrity sha512-ETWD/H2TbWbKEi7m9N4Km5+cw1hNcqJSxlSYhsLsNjQzWWiZIYA1zafxpK9PwVfaZ6AqR5rrjPVUBGESm5tQUA==
   
   clean-stack@^2.0.0:
     version "2.2.0"
@@ -1990,6 +2002,11 @@ Lockfile:
     integrity sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==
     dependencies:
       is-obj "^2.0.0"
+  
+  dotenv@^10.0.0:
+    version "10.0.0"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+    integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
   
   dotenv@^8.2.0:
     version "8.6.0"
@@ -5214,10 +5231,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/trim-off-newlines/-/trim-off-newlines-1.0.1.tgz#9f9ba9d9efa8764c387698bcbfeb2c848f11adb3"
     integrity sha1-n5up2e+odkw4dpi8v+sshI8RrbM=
   
-  ts-jest@^27.0.3:
-    version "27.0.3"
-    resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.0.3.tgz#808492f022296cde19390bb6ad627c8126bf93f8"
-    integrity sha512-U5rdMjnYam9Ucw+h0QvtNDbc5+88nxt7tbIvqaZUhFrfG4+SkWhMXjejCLVGcpILTPuV+H3W/GZDZrnZFpPeXw==
+  ts-jest@^27.0.4:
+    version "27.0.4"
+    resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-27.0.4.tgz#df49683535831560ccb58f94c023d831b1b80df0"
+    integrity sha512-c4E1ECy9Xz2WGfTMyHbSaArlIva7Wi2p43QOMmCqjSSjHP06KXv+aT+eSY+yZMuqsMi3k7pyGsGj2q5oSl5WfQ==
     dependencies:
       bs-logger "0.x"
       buffer-from "1.x"

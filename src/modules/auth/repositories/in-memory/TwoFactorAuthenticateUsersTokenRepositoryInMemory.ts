@@ -25,7 +25,7 @@ class TwoFactorAuthenticateUsersTokens
     );
   }
 
-  public async create({
+  public async generate({
     user_id,
   }: ICreateTwoFactorAuthenticateUserTokenDTO): Promise<TwoFactorAuthenticateUserToken> {
     const twoFactorAuthenticateUserToken = new TwoFactorAuthenticateUserToken();
@@ -43,15 +43,16 @@ class TwoFactorAuthenticateUsersTokens
 
   public async save(
     twoFactorAuthenticateUserToken: TwoFactorAuthenticateUserToken
-  ): Promise<void> {
-    this.twoFactorAuthenticateUserToken.splice(
-      this.twoFactorAuthenticateUserToken.findIndex(
-        (existentUser) =>
-          existentUser.user_id === twoFactorAuthenticateUserToken.user_id
-      ),
-      1,
-      twoFactorAuthenticateUserToken
+  ): Promise<TwoFactorAuthenticateUserToken> {
+    const findIndex = this.twoFactorAuthenticateUserToken.findIndex(
+      (existentUser) =>
+        existentUser.user_id === twoFactorAuthenticateUserToken.user_id
     );
+
+    this.twoFactorAuthenticateUserToken[findIndex] =
+      twoFactorAuthenticateUserToken;
+
+    return twoFactorAuthenticateUserToken;
   }
 }
 

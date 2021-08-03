@@ -27,14 +27,10 @@ class TwoFactorAuthenticateUsersTokenRepository
   public async findByToken(
     token: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined> {
-    return this.ormRepository.findOne({
-      where: {
-        token,
-      },
-    });
+    return this.ormRepository.findOne(token);
   }
 
-  public async create({
+  public async generate({
     user_id,
   }: ICreateTwoFactorAuthenticateUserTokenDTO): Promise<TwoFactorAuthenticateUserToken> {
     const userToken = this.ormRepository.create({
@@ -48,8 +44,8 @@ class TwoFactorAuthenticateUsersTokenRepository
 
   public async save(
     twoFactorAuthenticateUserToken: TwoFactorAuthenticateUserToken
-  ): Promise<void> {
-    await this.ormRepository.save(twoFactorAuthenticateUserToken);
+  ): Promise<TwoFactorAuthenticateUserToken> {
+    return this.ormRepository.save(twoFactorAuthenticateUserToken);
   }
 }
 

@@ -56,6 +56,6 @@ export default class CreateUsersTokens2faTable1627265358067
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('user_tokens');
+    await queryRunner.dropTable('two_factor_authenticate_user_tokens');
   }
 }

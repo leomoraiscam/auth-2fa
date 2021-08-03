@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -14,6 +15,7 @@ class TwoFactorAuthenticateUserToken {
 
   @Column()
   @Generated('uuid')
+  @Exclude()
   token: string;
 
   @Column()
