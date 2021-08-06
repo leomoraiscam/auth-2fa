@@ -1,5 +1,4 @@
 import { hash } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
@@ -37,14 +36,10 @@ class CreateUserUseCase {
       password: hashPassword,
     });
 
-    const token = sign({}, 'secret', {
-      subject: String(user.id),
-      expiresIn: '1d',
-    });
-
-    await this.twoFactorAuthenticateUserTokenRepository.generate({
-      user_id: user.id,
-    });
+    const { token } =
+      await this.twoFactorAuthenticateUserTokenRepository.generate({
+        user_id: user.id,
+      });
 
     const welcomeTemplate = path.resolve(
       __dirname,
