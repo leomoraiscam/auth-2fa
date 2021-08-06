@@ -1,8 +1,8 @@
-import { hash } from 'bcryptjs';
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
 import ITwoFactorAuthenticateUsersTokenRepository from '@modules/auth/repositories/ITwoFactorAuthenticateUsersTokenRepository';
+import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import IMailProvider from '@shared/container/providers/MailProvider/model/IMailProvider';
 import AppError from '@shared/errors/AppError';
 
@@ -18,7 +18,9 @@ class CreateUserUseCase {
     @inject('TwoFactorAuthenticateUsersTokenRepository')
     private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUsersTokenRepository,
     @inject('MailProvider')
-    private mailProvider: IMailProvider
+    private mailProvider: IMailProvider,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
   ) {}
 
   async execute({ name, email, password }: ICreateUserDTO): Promise<User> {
@@ -28,7 +30,7 @@ class CreateUserUseCase {
       throw new AppError('user already exists', 409);
     }
 
-    const hashPassword = await hash(password, 8);
+    const hashPassword = await this.hashProvider.generateHash(password);
 
     const user = await this.usersRepository.create({
       name,

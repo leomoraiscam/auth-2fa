@@ -1,9 +1,9 @@
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
 import User from '@modules/users/infra/typeorm/entities/User';
 import IUserRepository from '@modules/users/repositories/IUsersRepository';
+import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
 import IReCaptchaProvider from '@shared/container/providers/ReCaptchaProvider/models/IReCaptchaProvider';
 import AppError from '@shared/errors/AppError';
 
@@ -28,7 +28,9 @@ class AuthenticateUserUseCase {
     @inject('TwoFactorAuthenticateUsersTokenRepository')
     private twoFactorAuthenticateUserTokenRepository: ITwoFactorAuthenticateUsersTokenRepository,
     @inject('ReCaptchaProvider')
-    private reCaptchaProvider: IReCaptchaProvider
+    private reCaptchaProvider: IReCaptchaProvider,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
   ) {}
 
   async execute({
@@ -58,7 +60,10 @@ class AuthenticateUserUseCase {
       }
     }
 
-    const checkMatchedPassword = await compare(password, user.password);
+    const checkMatchedPassword = await this.hashProvider.compareHash(
+      password,
+      user.password
+    );
 
     if (!checkMatchedPassword) {
       await this.usersRepository.save(
@@ -84,7 +89,7 @@ class AuthenticateUserUseCase {
 
     await this.usersRepository.save(
       Object.assign(user, {
-        signInAttempts: 0,
+        sign_in_attempts: 0,
       })
     );
 
