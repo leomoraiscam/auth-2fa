@@ -3,12 +3,14 @@ import { inject, injectable } from 'tsyringe';
 
 import IUserRepository from '@modules/users/repositories/IUsersRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/model/IMailProvider';
+import IReCaptchaProvider from '@shared/container/providers/ReCaptchaProvider/models/IReCaptchaProvider';
 import AppError from '@shared/errors/AppError';
 
 import IUserTokensRepository from '../../repositories/IUserTokenRepository';
 
 interface IRequest {
   email: string;
+  token?: string;
 }
 
 @injectable()
@@ -19,14 +21,40 @@ class SendForgotPasswordEmailUseCase {
     @inject('MailProvider')
     private mailProvider: IMailProvider,
     @inject('UserTokensRepository')
-    private userTokensRepository: IUserTokensRepository
+    private userTokensRepository: IUserTokensRepository,
+    @inject('ReCaptchaProvider')
+    private reCaptchaProvider: IReCaptchaProvider
   ) {}
 
-  async execute({ email }: IRequest): Promise<void> {
+  async execute({ email, token: reCaptchaToken }: IRequest): Promise<void> {
+    const max_forgot_password_attempts = 3;
+
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError('User does not exist', 400);
+    }
+
+    const { forgot_password_attempts } = user;
+
+    if (forgot_password_attempts > max_forgot_password_attempts) {
+      if (!reCaptchaToken) {
+        throw new AppError('re-captcha-token');
+      }
+
+      const success = await this.reCaptchaProvider.validate(reCaptchaToken);
+
+      if (!success) {
+        throw new AppError('too many requests to forgot password', 429);
+      } else {
+        user.forgot_password_attempts = 0;
+      }
+    } else {
+      await this.usersRepository.save(
+        Object.assign(user, {
+          forgot_password_attempts: forgot_password_attempts + 1,
+        })
+      );
     }
 
     const { token } = await this.userTokensRepository.generate(user.id);
