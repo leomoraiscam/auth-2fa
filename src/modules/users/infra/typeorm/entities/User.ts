@@ -22,6 +22,12 @@ class User {
   @Exclude()
   password: string;
 
+  @Column()
+  sign_in_attempts: number;
+
+  @Column()
+  forgot_password_attempts: number;
+
   @CreateDateColumn()
   created_at: Date;
 
