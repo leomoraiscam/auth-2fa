@@ -27,7 +27,11 @@ class TwoFactorAuthenticateUsersTokenRepository
   public async findByToken(
     token: string
   ): Promise<TwoFactorAuthenticateUserToken | undefined> {
-    return this.ormRepository.findOne(token);
+    return this.ormRepository.findOne({
+      where: {
+        token,
+      },
+    });
   }
 
   public async generate({
