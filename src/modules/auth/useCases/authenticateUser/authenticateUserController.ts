@@ -6,7 +6,7 @@ import AuthenticatedUserUseCase from './authenticateUserUseCase';
 
 class AuthenticateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { email, password } = request.body;
+    const { email, password, tokenReCaptcha } = request.body;
 
     const authenticatedUserUseCase = container.resolve(
       AuthenticatedUserUseCase
@@ -15,6 +15,7 @@ class AuthenticateUserController {
     const { user, token } = await authenticatedUserUseCase.execute({
       email,
       password,
+      tokenReCaptcha,
     });
 
     return response.status(201).json({ user: classToClass(user), token });
