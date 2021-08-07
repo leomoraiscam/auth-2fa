@@ -19,7 +19,7 @@ class ValidateTwoFactorAuthenticateTokenUseCase {
       await this.twoFactorAuthenticateUserTokenRepository.findByToken(token);
 
     if (!twoFactorUserToken) {
-      throw new AppError('Invalid 2fa token');
+      throw new AppError('2fa token not found', 404);
     }
 
     try {

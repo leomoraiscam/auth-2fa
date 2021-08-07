@@ -39,7 +39,7 @@ class SendForgotPasswordEmailUseCase {
 
     if (forgot_password_attempts > max_forgot_password_attempts) {
       if (!reCaptchaToken) {
-        throw new AppError('re-captcha-token');
+        throw new AppError('re-captcha-token', 401);
       }
 
       const success = await this.reCaptchaProvider.validate(reCaptchaToken);
