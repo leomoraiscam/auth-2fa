@@ -1,3 +1,4 @@
+import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
 
 import AuthenticatedUserController from '@modules/auth/useCases/authenticateUser/authenticateUserController';
@@ -13,11 +14,44 @@ const validateTwoFactorAuthenticateTokenController =
   new ValidateTwoFactorAuthenticateTokenController();
 const resetPasswordController = new ResetPasswordController();
 
-passwordRoutes.post('/sessions', authenticatedUserController.handle);
-passwordRoutes.post('/forgot', sendForgotPasswordEmailController.handle);
+passwordRoutes.post(
+  '/sessions',
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+      tokenReCaptcha: Joi.string().uuid(),
+    },
+  }),
+  authenticatedUserController.handle
+);
+passwordRoutes.post(
+  '/forgot',
+  celebrate({
+    [Segments.BODY]: {
+      email: Joi.string().email().required(),
+      token: Joi.string().uuid(),
+    },
+  }),
+  sendForgotPasswordEmailController.handle
+);
 passwordRoutes.post(
   '/2fa',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().uuid().required(),
+    },
+  }),
   validateTwoFactorAuthenticateTokenController.handle
 );
-passwordRoutes.post('/reset', resetPasswordController.handle);
+passwordRoutes.post(
+  '/reset',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+    },
+  }),
+  resetPasswordController.handle
+);
 export default passwordRoutes;
