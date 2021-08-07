@@ -1,0 +1,523 @@
+{
+  "openapi":"3.0.0",
+  "info": {
+    "title": "Node 2FA Documentation",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/auth/sessions": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email","password"],
+                "properties":{ 
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "tokenReCaptcha": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "This will be returned when successfully authenticates the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "user": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "date"
+                      },
+                      "updated_at": {
+                        "type": "date"
+                      },
+                      "avatar_url": {
+                        "type": "string"
+                      }
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "user": {
+                    "id": "b1ac6b36-b4dc-4ff7-87d7-1da45797f578",
+                      "name": "Jonh Doe",
+                      "email": "johndoe@example.com.br",
+                      "created_at": "2021-03-09T16:51:23.057Z",
+                      "updated_at": "2021-03-09T16:51:33.718Z"
+                  },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOnsiaWQiOiI1ZTk5M2E2ZjI0Yzc1ODZjNmFjYmIxNDYiLCJuYW1lIjoiSm9obm55IERvZSIsImVtYWlsIjoiam9obmRvZUBpb2FzeXMuY29tLmJyIn0sImlhdCI6MTU4NzMzODI1OX0.rvLyJvCj0vC3CyuZbrTTSR5NzKgV5-jOybMlZtcY0jM"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This will be returned when has validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Validation error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "This will be returned when the password used is invalid or user was found for the email used",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Incorrect email/password combination"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "Error",
+                  "message": "Internal Server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgot": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Sends an email to reset the users's password",
+        "description": "Sends an email to reset the users's password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required":["email"],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "email": "johndoe@example.com.br"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "This will be returned when an email was sent for the email address provided"
+          },
+          "400": {
+            "description": "This will be returned when has validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Validation error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "This will be returned when the user try recoverer password fourth",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "re-captcha-token"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "This will be returned when no user was found for the email used",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "User does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "Error",
+                  "message": "Internal Server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Resets the user's password with the new password provided",
+        "description": "Resets the user's password with the new password provided",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required":["password","token"],
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "password":"123123",
+                "token":"d3d0d27e-7a84-44a9-bf2e-19fbd405aed0"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "This will be returned when the password was updated and the user can try to authenticate again"
+          },
+          "400": {
+            "description": "This will be returned when has validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Validation error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "This will be returned when the token provided has expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "ApplicationError",
+                  "message": "Token Expired"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "This will be returned when no token was found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "User token does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "Error",
+                  "message": "Internal Server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/2fa": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Validate two factor authenticate user's token",
+        "description": "Validate two factor authenticate user's token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["token"],
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "token":"d3d0d27e-7a84-44a9-bf2e-19fbd405aed0"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "This will be returned when the successfully confirmation account of user"
+          },
+          "400": {
+            "description": "This will be returned when has validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Validation error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "This will be returned when the token provided has expired",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "ApplicationError",
+                  "message": "Token Expired"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "This will be returned when no token was found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "2fa token not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "Error",
+                  "message": "Internal Server error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/": {
+      "summary": "Create User",
+      "post": {
+        "summary": "Creates an user",
+        "description": "Creates an user in the application",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required":["name", "email", "password"],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "name": "John Doe",
+                "email": "johndoe@example.com.br",
+                "password": "P@ssw0rd"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "This will be returned when successfully creates a new user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "id": "26f66f55-1355-41ca-89ef-1cf9497f3339",
+                  "name": "John Doe",
+                  "email": "johndoe@example.com.br",
+                  "created_at": "2020-04-16T23:00:45.179Z",
+                  "updated_at": "2020-04-16T23:41:38.451Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This will be returned when has validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Validation error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "This will be returned when The email used is already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "User already exists"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "name": "error",
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
