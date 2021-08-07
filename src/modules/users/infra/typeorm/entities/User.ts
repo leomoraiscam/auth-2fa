@@ -23,9 +23,11 @@ class User {
   password: string;
 
   @Column()
+  @Exclude()
   sign_in_attempts: number;
 
   @Column()
+  @Exclude()
   forgot_password_attempts: number;
 
   @CreateDateColumn()
