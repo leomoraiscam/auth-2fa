@@ -1,5 +1,6 @@
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
+import { v4 as uuidv4 } from 'uuid';
 
 import IUserRepository from '@modules/users/repositories/IUsersRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/model/IMailProvider';
@@ -55,6 +56,14 @@ class SendForgotPasswordEmailUseCase {
           forgot_password_attempts: forgot_password_attempts + 1,
         })
       );
+    }
+
+    const userTokenExist = await this.userTokensRepository.findByUserId(
+      user.id
+    );
+
+    if (userTokenExist) {
+      userTokenExist.token = uuidv4();
     }
 
     const { token } = await this.userTokensRepository.generate(user.id);

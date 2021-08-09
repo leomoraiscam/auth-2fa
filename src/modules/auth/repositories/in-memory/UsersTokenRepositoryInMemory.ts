@@ -6,6 +6,10 @@ import IUserTokenRepository from '../IUserTokenRepository';
 class UserTokensRepositoryInMemory implements IUserTokenRepository {
   private usersTokens: UserToken[] = [];
 
+  public async findByUserId(user_id: string): Promise<UserToken | undefined> {
+    return this.usersTokens.find((findToken) => findToken.user_id === user_id);
+  }
+
   public async findByToken(token: string): Promise<UserToken | undefined> {
     return this.usersTokens.find((findToken) => findToken.token === token);
   }
